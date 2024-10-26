@@ -18,10 +18,10 @@ public interface Constants {
 
     String SAVES_PATH = GAME_PATH + "\\saves";
 
-    String ZIP_PATH = GAME_PATH + "\\saves.zip";
+    String ZIP_PATH = GAME_PATH + "\\SaveTheSpire.zip";
 
     String PREFERENCES = "preferences\\";
 
-    String ZIP_NAME = "zip";
+    String ZIP_NAME = "saveTheSpire";
 
 }

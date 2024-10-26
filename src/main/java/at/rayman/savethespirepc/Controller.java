@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Controller {
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     @FXML
     private Label title;
