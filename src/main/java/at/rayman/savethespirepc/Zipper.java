@@ -2,6 +2,7 @@ package at.rayman.savethespirepc;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class Zipper {
@@ -20,12 +21,12 @@ public class Zipper {
             e.printStackTrace();
             return Result.error("IOException: " + e.getMessage());
         }
-        return Result.success("Zip saved to: " + Constants.ZIP_PATH);
+        return Result.success("Zip saved");
     }
 
     private static void zipDirectory(File directory, String path, ZipOutputStream zos) throws IOException {
         if (!directory.isDirectory()) {
-            throw new IOException("Source path must be a directory.");
+            throw new IOException("Source path must be a directory");
         }
 
         File[] files = directory.listFiles();
@@ -47,4 +48,36 @@ public class Zipper {
             }
         }
     }
+
+    public static Result unzip() {
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(Constants.ZIP_PATH))) {
+            ZipEntry zipEntry = zis.getNextEntry();
+            while (zipEntry != null) {
+                File file = new File(Constants.GAME_PATH + "/" + zipEntry.getName());
+                if (zipEntry.isDirectory()) {
+                    file.mkdirs();
+                } else {
+                    unzipFile(zis, file);
+                }
+                zipEntry = zis.getNextEntry();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("Error while unzipping: " + e.getMessage());
+        }
+
+
+        return Result.error("Unzipped save");
+    }
+
+    private static void unzipFile(ZipInputStream zis, File file) throws IOException {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int len;
+            while ((len = zis.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+        }
+    }
+
 }
