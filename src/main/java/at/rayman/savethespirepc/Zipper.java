@@ -66,7 +66,6 @@ public class Zipper {
             return Result.error("Error while unzipping: " + e.getMessage());
         }
 
-
         return Result.error("Unzipped save");
     }
 

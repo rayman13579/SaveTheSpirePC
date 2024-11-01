@@ -37,7 +37,7 @@ public class NetworkService {
             HttpEntity entity = MultipartEntityBuilder.create()
                 .addBinaryBody(Constants.ZIP_NAME, Paths.get(Constants.ZIP_PATH).toFile())
                 .build();
-            HttpPut request = new HttpPut(new URI(Constants.URL + "/upload"));
+            HttpPut request = new HttpPut(new URI(Constants.URL));
             request.setEntity(entity);
             HttpResponse response = httpClient.execute(request);
             return Result.success("Backend returned status: " + response.getStatusLine().getStatusCode());
@@ -49,7 +49,7 @@ public class NetworkService {
 
     public Result downloadSave() {
         try {
-            HttpGet request = new HttpGet(new URI(Constants.URL + "/download"));
+            HttpGet request = new HttpGet(new URI(Constants.URL));
             HttpResponse response = httpClient.execute(request);
             FileUtils.copyInputStreamToFile(response.getEntity().getContent(), new File(Constants.ZIP_PATH));
             return Result.success("Backend returned status: " + response.getStatusLine().getStatusCode());
